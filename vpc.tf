@@ -61,7 +61,7 @@ resource "aws_route_table" "us-east-1a-private" {
 
     route {
         cidr_block = "0.0.0.0/0"
-        instance_id = "${aws_instance.CSR1000v.id}"
+        network_interface_id = "${aws_network_interface.G2.id}"
     }
 
     tags {
