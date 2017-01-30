@@ -14,7 +14,7 @@ variable "amis" {
     }
 }
 variable "vpc_NAME" {
-	default = "VPC_12"
+	default = "VPC_XX"
 }
 
 variable "CSR1000v_instance_type" {
@@ -23,19 +23,23 @@ variable "CSR1000v_instance_type" {
 
 variable "vpc_cidr" {
     description = "CIDR for the whole VPC"
-    default = "10.0.12.0/24"
+    default = "10.0.XX.0/24"
 }
 
 variable "public_subnet_cidr" {
     description = "CIDR for the Public Subnet"
-    default = "10.0.12.0/28"
+    default = "10.0.XX.0/28"
+}
+
+variable "G1_static_private_ip" {
+    default = "10.0.XX.5"
 }
 
 variable "private_subnet_cidr" {
     description = "CIDR for the Private Subnet"
-    default = "10.0.12.16/28"
+    default = "10.0.XX.16/28"
 }
 
 variable "G2_static_private_ip" {
-    default = "10.0.12.20"
+    default = "10.0.XX.20"
 }

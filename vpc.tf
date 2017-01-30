@@ -59,10 +59,10 @@ resource "aws_subnet" "us-east-1a-private" {
 resource "aws_route_table" "us-east-1a-private" {
     vpc_id = "${aws_vpc.default.id}"
 
-    route {
-        cidr_block = "0.0.0.0/0"
-        network_interface_id = "${aws_network_interface.G2.id}"
-    }
+#    route {
+#        cidr_block = "0.0.0.0/0"
+#        network_interface_id = "${aws_network_interface.G2.id}"
+#    }
 
     tags {
         Name = "Private Subnet"
@@ -151,20 +151,26 @@ resource "aws_instance" "CSR1000v" {
     vpc_security_group_ids = ["${aws_security_group.SG_G1_CSR1000v.id}"]
     subnet_id = "${aws_subnet.us-east-1a-public.id}"
     associate_public_ip_address = true
+	private_ip = "${var.G1_static_private_ip}"
     source_dest_check = false
 
     tags {
-        Name = "VPC CSR1000v"
+        Name = "${var.vpc_NAME}"
     }
 }
 
-resource "aws_network_interface" "G2" {
-	subnet_id = "${aws_subnet.us-east-1a-private.id}"
-	private_ips = ["${var.G2_static_private_ip}"]
-	security_groups = ["${aws_security_group.SG_G2_CSR1000v.id}"]
-	source_dest_check = false
-	attachment {
-		instance = "${aws_instance.CSR1000v.id}"
-		device_index = 1
-	}
+resource "aws_eip" "CSR1000v" {
+    instance = "${aws_instance.CSR1000v.id}"
+    vpc = true
 }
+
+#resource "aws_network_interface" "G2" {
+#	subnet_id = "${aws_subnet.us-east-1a-private.id}"
+#	private_ips = ["${var.G2_static_private_ip}"]
+#	security_groups = ["${aws_security_group.SG_G2_CSR1000v.id}"]
+#	source_dest_check = false
+#	attachment {
+#		instance = "${aws_instance.CSR1000v.id}"
+#		device_index = 1
+#	}
+#}
