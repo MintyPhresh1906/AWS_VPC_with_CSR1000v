@@ -1,3 +1,4 @@
+# to replace XX with VPC number :%s/XX/number
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_key_name" {}
