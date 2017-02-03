@@ -7,11 +7,7 @@ Edit FULLTEMPLATE.yml and DMVPN crypto preshared key
 
 Copy full projects folder to your home directory as the shell script references ~/projects/DMVPN...
 
-Install Terraform and Ansible on linux
-Follow Terraform installation instructions here:
-https://www.terraform.io/intro/getting-started/install.html
-
-For Ansible:
+Perpare linux host:
 sudo apt-get update
 sudo apt-get install python-setuptools python-pip git ack-grep jq
 sudo pip install PyYAML jinja2 httplib2 six bracket-expansion pysnmp netaddr
@@ -21,6 +17,13 @@ sudo apt-get update
 sudo apt-get install ansible
 sudo apt-get install tree
 sudo pip install pyping
+sudo apt-get install unzip
+
+Install Terraform and Ansible on linux
+Follow Terraform installation instructions here:
+https://www.terraform.io/intro/getting-started/install.html
+Remember to add terraform directory PATH
+eg., in ~/.profile, add "export PATH=$PATH:/home/vagrant/terraform"
 
 Add Private key
 Add openssh version of private key to ~/.ssh
