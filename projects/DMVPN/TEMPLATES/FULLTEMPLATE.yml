@@ -1,0 +1,8 @@
+---
+key: [add key]
+ipaddrG1: 10.0.XXX.5
+ipaddrDG: 10.0.XXX.1
+ipaddrG2: 10.0.XXX.20
+ipaddrLo0: 1.0.XXX.1
+ipaddrTun10: 2.0.XXX.1
+cli: "{{cli}}"

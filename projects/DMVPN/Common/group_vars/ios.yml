@@ -1,0 +1,5 @@
+---
+cli:
+  username: ec2-user
+  host:      "{{inventory_hostname}}"
+  transport: cli

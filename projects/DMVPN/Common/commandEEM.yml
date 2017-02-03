@@ -1,0 +1,8 @@
+---
+- hosts: ios
+  tasks:
+  - name: "Run EEM Script"
+    ios_command:
+      provider: "{{cli}}"
+      commands: event manager run fvrf
+

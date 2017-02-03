@@ -1,0 +1,112 @@
+---
+- hosts: ios
+  tasks:
+  - name: "Configure VRF"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "vrf definition internet-vrf"
+      lines:
+        - "rd 1:1"
+        - "address-family ipv4"
+        - "exit-address-family"
+  - name: "Configure EEM Script"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "event manager applet fvrf"
+      lines:
+        - "event none"
+        - "action 1.0 cli command \"enable\""
+        - "action 1.1 cli command \"config t\""
+        - "action 1.2 cli command \"ip route vrf internet-vrf 0.0.0.0 0.0.0.0 {{ipaddrDG}}\""
+        - "action 1.3 cli command \"interface gig1\""
+        - "action 1.4 cli command \"vrf forwarding internet-vrf\""
+        - "action 1.5 cli command \"ip address {{ipaddrG1}} 255.255.255.240\""
+        - "action 2.0 cli command \"end\""
+  - name: "Configure Crypto Keyring"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "crypto keyring internet-key vrf internet-vrf"
+      lines:
+        - "pre-shared-key address 0.0.0.0 0.0.0.0 key {{key}}"
+  - name: "Configure ISAKMP Policy"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "crypto isakmp policy 10"
+      lines:
+        - "encr aes 256"
+        - "hash sha256"
+        - "authentication pre-share"
+  - name: "Configure ISAKMP Profile"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "crypto isakmp profile isakmp-prof"
+      lines:
+        - "keyring internet-key"
+        - "match identity address 0.0.0.0 internet-vrf"
+  - name: "Configure Crypto Settings"
+    ios_config:
+      provider: "{{cli}}"
+      lines:
+        - "crypto isakmp keepalive 10 10"
+        - "crypto ipsec security-association replay window-size 128"
+        - "crypto ipsec df-bit clear"
+  - name: "Configure Transform Set"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "crypto ipsec transform-set xform esp-aes 256 esp-sha256-hmac"
+      lines:
+        - "mode transport"
+  - name: "Configure IPSEC Profile"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "crypto ipsec profile ipsec-prof"
+      lines:
+        - "set transform-set xform"
+        - "set isakmp-profile isakmp-prof"
+  - name: "Configure Loopback Interface"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "interface Loopback0"
+      lines:
+        - "ip address {{ipaddrLo0}} 255.255.255.255"
+  - name: "Configure Tunnel Interface"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "interface Tunnel10"
+      lines:
+        - "ip address {{ipaddrTun10}} 255.255.0.0"
+        - "no ip redirects"
+        - "ip mtu 1400"
+        - "no ip next-hop-self eigrp 1"
+        - "no ip split-horizon eigrp 1"
+        - "ip nhrp network-id 100"
+        - "ip nhrp nhs 2.0.10.1 nbma [X.X.X.X] multicast"
+        - "ip nhrp shortcut"
+        - "ip tcp adjust-mss 1360"
+        - "tunnel source GigabitEthernet1"
+        - "tunnel mode gre multipoint"
+        - "tunnel key 1"
+        - "tunnel vrf internet-vrf"
+        - "tunnel protection ipsec profile ipsec-prof"
+  - name: "Configure EIGRP"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "router eigrp 1"
+      lines:
+        - "default-metric 1000 100 255 255 1500"
+        - "network {{ipaddrLo0}} 0.0.0.0"
+        - "network {{ipaddrTun10}} 0.0.255.255"
+        - "passive-interface default"
+        - "no passive-interface Tunnel10"
+        - "eigrp router-id {{ipaddrLo0}}"
+

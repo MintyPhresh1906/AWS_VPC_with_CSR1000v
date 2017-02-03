@@ -1,0 +1,23 @@
+---
+- hosts: ios
+  tasks:
+  - name: "Add Static IP Address to Interface G2"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "interface GigabitEthernet2"
+      lines:
+        - "ip address {{ipaddrG2}} 255.255.255.240"
+        - "no shutdown"
+  - name: "Configure EIGRP"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "router eigrp 1"
+      lines:
+        - "network {{ipaddrG2}} 0.0.0.15"
+  - name: "Save Configuration"
+    ios_command:
+      provider: "{{cli}}"
+      commands: wr
+
