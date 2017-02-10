@@ -13,7 +13,7 @@ if  [ $VPC -gt 255 ]; then
   exit 1
 fi
 
-ls ~/projects/DMVPN/VPCs | grep -i "$VPC"
+ls ~/projects/DMVPN/VPCs | grep -w "$VPC"
 
 if  [ $? == 0 ]; then
   echo "VPC $VPC has already been created, quitting."
