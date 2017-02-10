@@ -1,4 +1,5 @@
 #!/bin/bash
+start=$SECONDS
 echo 
 echo 
 echo "Hello.  This script will create a VPC with public and private route tables utilizing a Cisco CSR1000v router with DMVPN and a Front Door VRF in AWS."
@@ -78,4 +79,6 @@ rm G2INTERFACE.yml
 ansible-playbook CLEANG2INTERFACE.yml -vvvv
 cd ~/projects/DMVPN
 rm -r tmp$VPC
+duration=$(( SECONDS - start ))
+echo This deployment took $duration seconds.
 echo "Have a Nice Day :-)"
