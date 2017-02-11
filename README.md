@@ -7,9 +7,9 @@ Edit FULLTEMPLATE.j2 and add your DMVPN hub public address
 
 Edit FULLTEMPLATE.yml and DMVPN crypto preshared key
 
-Edit SmartCommandPlaybookconfig.yml to add your Cisco Smart License account email address and tokenid
+Edit SmartLicenseConfig.yml to add your Cisco Smart License account email address and tokenid
 
-Edit SmartCommandPlaybookenable.yml to change licensing (is now configured for 1Gbps AX feature package)
+Edit SmartLicenseEnable.yml to change licensing (is now configured for 1Gbps AX feature package)
 
 Copy full projects folder to your home directory as the shell script references ~/projects/DMVPN...
 
