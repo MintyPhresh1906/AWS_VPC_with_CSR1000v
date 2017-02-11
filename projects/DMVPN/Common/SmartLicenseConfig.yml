@@ -1,0 +1,42 @@
+---
+- hosts: ios
+  tasks:
+  - name: "Configure internet-vrf call-home DNS and misc"
+    ios_config:
+      provider: "{{cli}}"
+      lines:
+        - "ip name-server vrf internet-vrf 208.67.222.222"
+        - "ip http client source-interface GigabitEthernet1"
+        - "ip domain lookup vrf internet-vrf source-interface GigabitEthernet1"
+  - name: "Configure call-home paramaters"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "call-home"
+      lines:
+        - "contact-email-addr [emailaddress]"
+        - "vrf internet-vrf"
+  - name: "Configure call-home profile"
+    ios_config:
+      provider: "{{cli}}"
+      parents:
+        - "call-home"
+        - "profile CiscoTAC-1"
+      lines:
+        - "active"
+        - "destination transport-method http"
+        - "destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService"
+  - name: "Configure call-home and smart licensing"
+    ios_config:
+      provider: "{{cli}}"
+      lines:
+        - "service call-home"
+        - "license smart enable"
+  - name: "Add smart licensing token"
+    ios_command:
+      provider: "{{cli}}"
+      commands: license smart register idtoken [your token]
+  - name: "Save Configuration"
+    ios_command:
+      provider: "{{cli}}"
+      commands: wr
