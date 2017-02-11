@@ -1,0 +1,12 @@
+---
+- hosts: ios
+  tasks:
+  - name: "Disable Smart License"
+    ios_config:
+      provider: "{{cli}}"
+      lines:
+        - "no license smart enable"
+  - name: "Save Configuration"
+    ios_command:
+      provider: "{{cli}}"
+      commands: wr
