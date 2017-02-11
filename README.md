@@ -10,7 +10,7 @@ Edit FULLTEMPLATE.yml and DMVPN crypto preshared key
 
 Copy full projects folder to your home directory as the shell script references ~/projects/DMVPN...
 
-Perpare linux host:
+Prepare linux host:
 
 sudo apt-get update
 
