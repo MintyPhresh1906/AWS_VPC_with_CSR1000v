@@ -77,6 +77,9 @@ cd ~/projects/DMVPN/VPCs/$VPC
 python cleanG2.py
 rm G2INTERFACE.yml
 ansible-playbook CLEANG2INTERFACE.yml -vvvv
+ansible-playbook SmartLicenseConfig.yml -vvvv
+python SmartLicenseRegistrationWait.py
+ansible-playbook SmartLicenseEnable.yml -vvvv
 cd ~/projects/DMVPN
 rm -r tmp$VPC
 duration=$(( SECONDS - start ))
