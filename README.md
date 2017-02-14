@@ -17,23 +17,23 @@ Prepare linux host:
 
 sudo apt-get update
 
-sudo apt-get install python-setuptools python-pip git ack-grep jq
-
-sudo pip install PyYAML jinja2 httplib2 six bracket-expansion pysnmp netaddr
-
 sudo apt-get install software-properties-common
 
-sudo apt-add-repository ppa:ansible/ansible
+sudo apt-add-repository ppa:ansible/ansible   [enter]
 
 sudo apt-get update
 
-sudo apt-get install ansible
+sudo apt-get install ansible   [y]
 
 sudo apt-get install tree
 
+sudo apt-get install unzip
+
+sudo apt-get install python-setuptools python-pip git ack-grep jq  [y]
+
 sudo pip install pyping
 
-sudo apt-get install unzip
+sudo pip install PyYAML jinja2 httplib2 six bracket-expansion netaddr
 
 
 Install Terraform and Ansible on linux
