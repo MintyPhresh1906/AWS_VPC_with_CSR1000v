@@ -56,3 +56,6 @@ rename to id_rsa
 chmod 600 id_rsa
 
 To run program: ~/projects/DMVPN/$ ./createvpc.sh
+
+
+To unregister CSR1000v from Smart Licensing and delete AWS VPC et all: ~/projects/DMVPN/$ ./destroyvpc.sh
